@@ -23,7 +23,7 @@ public class TcpServer {
 
 
                // sending data to the client
-               BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+               PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
                new Thread(() -> {
                    try {
@@ -39,19 +39,13 @@ public class TcpServer {
                Scanner scanner = new Scanner(System.in);
 
                new Thread(() -> {
-                   try {
-                       while (true){
-                           String msg =  scanner.nextLine();
-                           System.out.println("message sent");
-                           writer.write(msg + "\n");
-                           writer.flush();
-                       }
-                   } catch (IOException e) {
-                       System.out.println(e.getMessage());
+                   while (true){
+                       String msg = scanner.nextLine();
+                       writer.println(msg);
                    }
                }).start();
-
            }
+
 
        } catch (IOException e) {
            e.printStackTrace();

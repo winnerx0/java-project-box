@@ -17,7 +17,7 @@ public class TcpClient {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // sending data to the client
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
             Scanner scanner = new Scanner(System.in);
 
@@ -33,15 +33,9 @@ public class TcpClient {
             });
 
             Thread writingThread = new Thread(() -> {
-                try {
-                    while (true){
-                        String msg =  scanner.nextLine();
-                        System.out.println("message sent");
-                        writer.write(msg + "\n");
-                        writer.flush();
-                    }
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
+                while (true){
+                    String msg =  scanner.nextLine();
+                    writer.println(msg);
                 }
             });
 
@@ -50,6 +44,9 @@ public class TcpClient {
 
             readingThread.join();
             writingThread.join();
+
+            writer.close();
+            reader.close();
 
         }catch (Exception e){
             e.printStackTrace();
