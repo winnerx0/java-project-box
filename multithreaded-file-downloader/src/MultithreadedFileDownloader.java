@@ -31,7 +31,7 @@ public class MultithreadedFileDownloader {
         if (response.statusCode() != 206) {
             throw new RuntimeException("Server didn't return partial content. Status: " + response.statusCode());
         }
-        System.out.println("Download complete from  " + (start / (1024 * 1024)) + "mb to " + (end / (1024 * 1024)) + " mb");
+        System.out.println("Download complete from " + (start / (1024 * 1024)) + " mb to " + (end / (1024 * 1024)) + " mb");
 
         return response.body();
     }
